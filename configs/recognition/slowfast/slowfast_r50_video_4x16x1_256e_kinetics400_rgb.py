@@ -30,17 +30,18 @@ model = dict(
     cls_head=dict(
         type='SlowFastHead',
         in_channels=2304,  # 2048+256
-        num_classes=400,
+        num_classes=2,
         spatial_type='avg',
-        dropout_ratio=0.5))
+        dropout_ratio=0.4))
 train_cfg = None
 test_cfg = dict(average_clips=None)
 dataset_type = 'VideoDataset'
-data_root = 'data/kinetics400/videos_train'
-data_root_val = 'data/kinetics400/videos_val'
-ann_file_train = 'data/kinetics400/kinetics400_train_list_videos.txt'
-ann_file_val = 'data/kinetics400/kinetics400_val_list_videos.txt'
-ann_file_test = 'data/kinetics400/kinetics400_val_list_videos.txt'
+data_root = '/data2/phap/datasets/train_new/'
+data_root_val = '/data2/phap/datasets/val/'
+data_root_test = '/data2/phap/datasets/test/'
+ann_file_train = '/data2/phap/datasets/train.txt'
+ann_file_val = '/data2/phap/datasets/val.txt'
+ann_file_test = '/data2/phap/datasets/test.txt'
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_bgr=False)
 train_pipeline = [
@@ -98,8 +99,8 @@ test_pipeline = [
     dict(type='ToTensor', keys=['imgs'])
 ]
 data = dict(
-    videos_per_gpu=8,
-    workers_per_gpu=4,
+    videos_per_gpu=4,
+    workers_per_gpu=1,
     train=dict(
         type=dataset_type,
         ann_file=ann_file_train,
@@ -113,11 +114,11 @@ data = dict(
     test=dict(
         type=dataset_type,
         ann_file=ann_file_test,
-        data_prefix=data_root_val,
+        data_prefix=data_root_test,
         pipeline=test_pipeline))
 # optimizer
 optimizer = dict(
-    type='SGD', lr=0.1, momentum=0.9,
+    type='SGD', lr=0.001, momentum=0.9,
     weight_decay=0.0001)  # this lr is used for 8 gpus
 optimizer_config = dict(grad_clip=dict(max_norm=40, norm_type=2))
 # learning policy
@@ -127,7 +128,8 @@ lr_config = dict(
     warmup='linear',
     warmup_by_epoch=True,
     warmup_iters=34)
-total_epochs = 256
+# total_epochs = 256
+total_epochs = 100
 checkpoint_config = dict(interval=4)
 workflow = [('train', 1)]
 evaluation = dict(
@@ -140,7 +142,7 @@ log_config = dict(
     ])
 dist_params = dict(backend='nccl')
 log_level = 'INFO'
-work_dir = './work_dirs/slowfast_r50_video_3d_4x16x1_256e_kinetics400_rgb'
-load_from = None
+work_dir = '/home/run/phap/mmlab/mmaction2/work_dirs/dataset2_e100'
+load_from = '/home/run/phap/mmlab/mmaction2/checkpoints/slowfast_r50_4x16x1_256e_kinetics400_rgb_20200704-bcde7ed7.pth'
 resume_from = None
 find_unused_parameters = False

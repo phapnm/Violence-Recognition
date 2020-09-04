@@ -25,7 +25,7 @@ class SlowFastHead(BaseHead):
                  in_channels,
                  loss_cls=dict(type='CrossEntropyLoss'),
                  spatial_type='avg',
-                 dropout_ratio=0.8,
+                 dropout_ratio=0.4,
                  init_std=0.01):
 
         super().__init__(num_classes, in_channels, loss_cls)
@@ -71,6 +71,7 @@ class SlowFastHead(BaseHead):
         # [N x C]
         x = x.view(x.size(0), -1)
         # [N x num_classes]
-        cls_score = self.fc_cls(x)
+        cls_score = nn.functional.softmax(self.fc_cls(x))
+        # cls_score = nn.functional.sigmoid(self.fc_cls(x))
 
         return cls_score

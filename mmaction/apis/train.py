@@ -6,6 +6,7 @@ from mmcv.runner import (DistSamplerSeedHook, EpochBasedRunner, OptimizerHook,
 from ..core import DistEvalHook, EvalHook, Fp16OptimizerHook
 from ..datasets import build_dataloader, build_dataset
 from ..utils import get_root_logger
+import time
 
 
 def train_model(model,
@@ -39,12 +40,15 @@ def train_model(model,
         num_gpus=len(cfg.gpu_ids),
         dist=distributed,
         seed=cfg.seed)
+    print(dataloader_setting)
     dataloader_setting = dict(dataloader_setting,
                               **cfg.data.get('train_dataloader', {}))
 
     data_loaders = [
         build_dataloader(ds, **dataloader_setting) for ds in dataset
     ]
+
+    start = time.time()
 
     # put model on gpus
     if distributed:
@@ -70,7 +74,7 @@ def train_model(model,
         meta=meta)
     # an ugly workaround to make .log and .log.json filenames the same
     runner.timestamp = timestamp
-
+    print(runner)
     # fp16 setting
     fp16_cfg = cfg.get('fp16', None)
     if fp16_cfg is not None:
@@ -85,8 +89,8 @@ def train_model(model,
     runner.register_training_hooks(cfg.lr_config, optimizer_config,
                                    cfg.checkpoint_config, cfg.log_config,
                                    cfg.get('momentum_config', None))
-    if distributed:
-        runner.register_hook(DistSamplerSeedHook())
+    # if distributed:
+    #     runner.register_hook(DistSamplerSeedHook())
 
     if validate:
         eval_cfg = cfg.get('evaluation', {})
@@ -108,4 +112,6 @@ def train_model(model,
         runner.resume(cfg.resume_from)
     elif cfg.load_from:
         runner.load_checkpoint(cfg.load_from)
-    runner.run(data_loaders, cfg.workflow, cfg.total_epochs)
+        runner.run(data_loaders, cfg.workflow, cfg.total_epochs)
+
+    print('time: ', time.time() - start)

@@ -83,7 +83,7 @@ class VideoDataset(BaseDataset):
                 f'topk must be int or tuple of int, but got {type(topk)}')
 
         metrics = metrics if isinstance(metrics, (list, tuple)) else [metrics]
-        allowed_metrics = ['top_k_accuracy', 'mean_class_accuracy']
+        allowed_metrics = ['top_k_accuracy', 'mean_class_accuracy', 'confusion_matrix', 'mean_average_precision', 'binary_precision_recall_curve']
         for metric in metrics:
             if metric not in allowed_metrics:
                 raise KeyError(f'metric {metric} is not supported')

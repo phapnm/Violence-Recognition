@@ -1,5 +1,7 @@
 import argparse
+import pandas as pd
 import os
+import numpy as np
 
 import mmcv
 import torch
@@ -108,6 +110,11 @@ def main():
         dist=distributed,
         shuffle=False)
 
+    df = pd.read_csv('/data2/phap/datasets/test.txt', header=None)
+    df.columns = ['full_name']
+    df['file_name'] = df['full_name'].apply(lambda x: x.rsplit(' ')[0])
+    df['true_label'] = df['full_name'].apply(lambda x: x.rsplit(' ')[-1])
+    
     # build the model and load checkpoint
     model = build_model(cfg.model, train_cfg=None, test_cfg=cfg.test_cfg)
     load_checkpoint(model, args.checkpoint, map_location='cpu')
@@ -122,6 +129,18 @@ def main():
             broadcast_buffers=False)
         outputs = multi_gpu_test(model, data_loader, args.tmpdir,
                                  args.gpu_collect)
+    
+    pred_arr = []
+    for i in outputs:
+        pred = np.argmax(i)
+        pred_arr.append(pred)
+
+    
+    df['pred_label_orig'] = outputs
+    df['pred_label'] = pred_arr
+    
+    df.to_csv('test_pred.csv')
+
 
     rank, _ = get_dist_info()
     if rank == 0:

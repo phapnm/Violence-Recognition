@@ -89,7 +89,7 @@ test_pipeline = [
 ]
 data = dict(
     videos_per_gpu=8,
-    workers_per_gpu=4,
+    workers_per_gpu=1,
     train=dict(
         type=dataset_type,
         ann_file=ann_file_train,
@@ -118,7 +118,7 @@ lr_config = dict(
     warmup_by_epoch=True,
     warmup_iters=34)
 total_epochs = 256
-checkpoint_config = dict(interval=4)
+checkpoint_config = dict(interval=1)
 workflow = [('train', 1)]
 evaluation = dict(
     interval=5, metrics=['top_k_accuracy', 'mean_class_accuracy'], topk=(1, 5))
