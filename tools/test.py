@@ -110,7 +110,8 @@ def main():
         dist=distributed,
         shuffle=False)
 
-    df = pd.read_csv('/data2/phap/datasets/test.txt', header=None)
+    # map lable from txt to csv file
+    df = pd.read_csv('/data2/phap/datasets/dataset3_test.txt', header=None)
     df.columns = ['full_name']
     df['file_name'] = df['full_name'].apply(lambda x: x.rsplit(' ')[0])
     df['true_label'] = df['full_name'].apply(lambda x: x.rsplit(' ')[-1])
@@ -130,16 +131,19 @@ def main():
         outputs = multi_gpu_test(model, data_loader, args.tmpdir,
                                  args.gpu_collect)
     
+    # convert softmax output to one hot
     pred_arr = []
     for i in outputs:
         pred = np.argmax(i)
         pred_arr.append(pred)
 
-    
+    # import output into csv
     df['pred_label_orig'] = outputs
     df['pred_label'] = pred_arr
     
-    df.to_csv('test_pred.csv')
+    # save csv file
+    df.to_csv('dataset3_test_pred_w_rwf_model.csv')
+    print('\nSuccess, csv file saved')
 
 
     rank, _ = get_dist_info()

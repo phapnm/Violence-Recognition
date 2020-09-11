@@ -3,7 +3,7 @@ import os.path as osp
 import torch
 from mmcv.utils import print_log
 
-from ..core import mean_class_accuracy, top_k_accuracy
+from ..core import mean_class_accuracy, top_k_accuracy, mean_average_precision
 from .base import BaseDataset
 from .registry import DATASETS
 
@@ -111,6 +111,13 @@ class VideoDataset(BaseDataset):
                 mean_acc = mean_class_accuracy(results, gt_labels)
                 eval_results['mean_class_accuracy'] = mean_acc
                 log_msg = f'\nmean_acc\t{mean_acc:.4f}'
+                print_log(log_msg, logger=logger)
+                continue
+
+            if metric == 'mean_average_precision':
+                mAP = mean_average_precision(results, gt_labels)
+                eval_results['mean_average_precision'] = mAP
+                log_msg = f'\nmAP\t{mAP:.4f}'
                 print_log(log_msg, logger=logger)
                 continue
 

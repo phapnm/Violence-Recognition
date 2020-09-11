@@ -36,12 +36,12 @@ model = dict(
 train_cfg = None
 test_cfg = dict(average_clips=None)
 dataset_type = 'VideoDataset'
-data_root = '/data2/phap/datasets/train_new/'
-data_root_val = '/data2/phap/datasets/val/'
-data_root_test = '/data2/phap/datasets/test/'
-ann_file_train = '/data2/phap/datasets/train.txt'
-ann_file_val = '/data2/phap/datasets/val.txt'
-ann_file_test = '/data2/phap/datasets/test.txt'
+data_root = '/data2/phap/datasets/dataset3_train/'
+data_root_val = '/data2/phap/datasets/dataset3_val/'
+data_root_test = '/data2/phap/datasets/dataset3_test/'
+ann_file_train = '/data2/phap/datasets/dataset3_train.txt'
+ann_file_val = '/data2/phap/datasets/dataset3_val.txt'
+ann_file_test = '/data2/phap/datasets/dataset3_test.txt'
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_bgr=False)
 train_pipeline = [
@@ -142,7 +142,7 @@ log_config = dict(
     ])
 dist_params = dict(backend='nccl')
 log_level = 'INFO'
-work_dir = '/home/run/phap/mmlab/mmaction2/work_dirs/dataset2_e100'
+work_dir = '/home/run/phap/mmlab/mmaction2/work_dirs/dataset3_e100'
 load_from = '/home/run/phap/mmlab/mmaction2/checkpoints/slowfast_r50_4x16x1_256e_kinetics400_rgb_20200704-bcde7ed7.pth'
 resume_from = None
 find_unused_parameters = False

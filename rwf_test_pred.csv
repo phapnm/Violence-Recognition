@@ -62,7 +62,7 @@
 60,338_RWF_train0.avi 0,338_RWF_train0.avi,0,[0.9265568  0.07344322],0
 61,677_RWF_train0.avi 0,677_RWF_train0.avi,0,[0.78200793 0.21799207],0
 62,351_RWF_train0.avi 0,351_RWF_train0.avi,0,[0.9905244  0.00947568],0
-63,494_RWF_train0.avi 0,494_RWF_train0.avi,0,[0.0480088  0.95199126],1
+63,494_RWF_train0.avi 1,494_RWF_train0.avi,1,[0.0480088  0.95199126],1
 64,58_RWF_train0.avi 0,58_RWF_train0.avi,0,[0.98376065 0.01623946],0
 65,393_RWF_train0.avi 0,393_RWF_train0.avi,0,[9.9929047e-01 7.0960779e-04],0
 66,699_RWF_train0.avi 0,699_RWF_train0.avi,0,[0.94011897 0.05988105],0
