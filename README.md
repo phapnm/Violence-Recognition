@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div align="center">
   <img src="docs/imgs/mmaction2_logo.png" width="500"/>
 </div>
@@ -102,4 +103,6 @@ We appreciate all contributions to improve MMAction2. Please refer to [CONTRIBUT
 MMAction2 is an open source project that is contributed by researchers and engineers from various colleges and companies.
 We appreciate all the contributors who implement their methods or add new features, as well as users who give valuable feedbacks.
 We wish that the toolbox and benchmark could serve the growing research community by providing a flexible toolkit to reimplement existing methods and develop their own new models.
+=======
+>>>>>>> dafdf9d3653f0958e71e3987094d8a298a0ae90a
 
