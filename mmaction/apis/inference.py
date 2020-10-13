@@ -106,8 +106,11 @@ def inference_recognizer(model, video_path, label_path, use_frames=False):
     # forward the model
     with torch.no_grad():
         scores = model(return_loss=False, **data)[0]
-    score_tuples = tuple(zip(label, scores))
-    score_sorted = sorted(score_tuples, key=itemgetter(1), reverse=True)
+    # score_tuples = tuple(zip(label, scores))
+    # score_sorted = sorted(score_tuples, key=itemgetter(1), reverse=True)
+    # top5_label = score_sorted[:5]
 
-    top5_label = score_sorted[:5]
-    return top5_label
+    result = 'Yes' if scores[0] < scores[1] else 'No'
+
+    # return top5_label
+    return result

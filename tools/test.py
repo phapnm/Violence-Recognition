@@ -111,7 +111,7 @@ def main():
         shuffle=False)
 
     # map lable from txt to csv file
-    df = pd.read_csv('/data2/phap/datasets/dataset3_test.txt', header=None)
+    df = pd.read_csv('/data2/phap/datasets/github_violence.txt', header=None)
     df.columns = ['full_name']
     df['file_name'] = df['full_name'].apply(lambda x: x.rsplit(' ')[0])
     df['true_label'] = df['full_name'].apply(lambda x: x.rsplit(' ')[-1])
@@ -138,11 +138,11 @@ def main():
         pred_arr.append(pred)
 
     # import output into csv
-    df['pred_label_orig'] = outputs
+    df['pred_label_score'] = outputs
     df['pred_label'] = pred_arr
     
     # save csv file
-    df.to_csv('dataset3_test_pred_w_rwf_model.csv')
+    df.to_csv('github_pred_model5.csv')
     print('\nSuccess, csv file saved')
 
 

@@ -115,9 +115,10 @@ class VideoDataset(BaseDataset):
                 continue
 
             if metric == 'mean_average_precision':
+                gt_labels = [label.cpu().numpy() for label in gt_labels]
                 mAP = mean_average_precision(results, gt_labels)
                 eval_results['mean_average_precision'] = mAP
-                log_msg = f'\nmAP\t{mAP:.4f}'
+                log_msg = f'\nmean_average_precision\t{mAP:.4f}'
                 print_log(log_msg, logger=logger)
                 continue
 
